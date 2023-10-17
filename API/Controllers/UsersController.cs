@@ -1,23 +1,24 @@
 ﻿using System.Reflection.Metadata.Ecma335;
 using API.Data;
 using API.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SQLitePCL;
 
 namespace API.Controllers;
 
-[ApiController]
-[Route("api/[controller]")] //  /api/users
-public class UserController : ControllerBase
+[Authorize]
+public class UsersController : BaseApiController
 {
     private readonly DataContext _context;
 
-    public UserController(DataContext context)
+    public UsersController(DataContext context)
     {
         _context = context;
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
     {
